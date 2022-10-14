@@ -36,9 +36,7 @@ const FieldWrapper = styled.div`
     color: #cecccc;
     font-size: 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0 0 0 5px;
     transition: 0.5s ease all;
   }
 
@@ -67,13 +65,14 @@ const FieldWrapper = styled.div`
         cursor: pointer;
         &.active {
           background: #75a3d366;
-          pointer-events: none;
+        }
+        &.unSelected{
+          &:hover {
+            background: #b5c8e566;
+          }
         }
         &.disabled {
           pointer-events: none;
-        }
-        &:hover {
-          background: #b5c8e566;
         }
       }
       .noOption{

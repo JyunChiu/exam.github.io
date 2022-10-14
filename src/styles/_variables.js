@@ -2,7 +2,9 @@ import { css } from 'styled-components';
 
 const COMMON_COLOR = {
   BLACK: '#5F5F5F',
-  GRAY: '#bababa'
+  GRAY: '#bababa',
+  BLUE: '#80909d',
+  WHITE: '#fcfcfc',
 };
 
 // rwd 相關 --------------------------------------------------------------------

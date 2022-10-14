@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
+import { BsX } from 'react-icons/bs';
 import * as R from 'ramda';
 import { COMMON_COLOR } from '~~styles/_variables';
 import ClickOutside from '../ClickOutside';
@@ -9,6 +10,35 @@ import Input from './Input'
 
 const Div = styled(FieldWrapper)`
   cursor: pointer;
+
+  .valueBox{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    cursor: auto;
+    .mutiItem{
+      display: flex;
+      align-items: center;
+      background: ${COMMON_COLOR.BLUE};
+      color:  ${COMMON_COLOR.WHITE};
+      font-size: 14px;
+      padding: 1px 1px 1px 5px;
+      border-radius: 4px;
+      transition: 0.5s ease all;
+      margin: 2px 0;
+      &:not(:last-child){
+        margin-right: 5px;
+      }
+     &:hover{
+        transform: scale(0.98);
+      }
+     
+      .iconRemove{
+        font-size: 18px;
+        cursor: pointer;
+      }
+    }
+  }
 
   .valueBox[placeholder]:empty:before {
     content: attr(placeholder);
@@ -29,7 +59,7 @@ const Div = styled(FieldWrapper)`
 `
 
 const Select = (props) => {
-  const [isMenuShow, setIsMenuShow] = useState(true);
+  const [isMenuShow, setIsMenuShow] = useState(false);
   const [term, setTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([])
   const {
@@ -83,13 +113,29 @@ const Select = (props) => {
     let result = ''
 
     if(isMulti){
-
+      result = value.map((item, index)=> (
+        <div className='mutiItem' key={item} onClick={e=> e.stopPropagation()}>
+          {getSelectedOptionLabel(item)}
+          <BsX className='iconRemove'  onClick={(e)=>handleRemoveMultiItem(e, index)}/>
+        </div>
+      ))
     }else{
-      const obj = R.find(R.propEq('value', value))(options)
-      result = obj?.label?? ''
+      result = getSelectedOptionLabel(value)
     }
 
     return result
+  }
+
+  function handleRemoveMultiItem(e, index){
+    e.stopPropagation();
+    const list = [...value]
+    list.splice(index, 1)
+    onChange({ [name]: list });
+  }
+
+  function getSelectedOptionLabel(val){
+    const obj = R.find(R.propEq('value', val))(options)
+    return obj?.label?? ''
   }
 
   function handleBlur() {
@@ -101,12 +147,32 @@ const Select = (props) => {
   function handleChange(val, e) {
     e.stopPropagation();
     e.preventDefault();
-    onChange({ [name]: val });
+    let result = isMulti? [...value, val] : val
+    if(isMulti){
+      const list = [...value]
+      const index = list.indexOf(val)
+      if(index>-1){
+        list.splice(index, 1)
+        result = list
+      }else{
+        result=[...list, val]
+      }
+
+    }else{
+      result = val
+    }
+    onChange({ [name]: result });
     handleMenuShow(isMulti);
   }
 
   function handleTermChange(item){
     setTerm(item.term)
+  }
+
+  function getOptionClass(val){
+    let condition = isMulti?  value.includes(val) :  val === value;
+
+    return condition? 'item active' : 'item unSelected'
   }
 
   return (
@@ -140,7 +206,7 @@ const Select = (props) => {
                 filteredOptions.map(item=>(
                   <div 
                     key={item.value}
-                    className={item.value === value? 'item active':'item'}
+                    className={getOptionClass(item.value)}
                     onClick={e => handleChange(item.value, e)}
                   >
                     {item.label}

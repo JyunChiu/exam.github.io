@@ -12,11 +12,13 @@ const Div = styled.div`
   padding: 5% 0%;
   .selectWrapper{
     min-width: 260px;
+    max-width: 600px;
+    min-height: 44px;
   }
 `
 
 const Demo1 = (props) => {
-  const [ selectedValue, setSelectedValue ] = useState('')
+  const [ selectedValue, setSelectedValue ] = useState([])
   const [ options, setOptions ] =  useState([])
 
   useEffect(()=>{
@@ -30,7 +32,8 @@ const Demo1 = (props) => {
         }
         return prev
       }, [])
-      setSelectedValue(list[0].value)
+      // setSelectedValue([list[0].value, list[1].value])
+      // setSelectedValue(list[0].value)
       setOptions(list)
     })
     .catch(error => {
@@ -47,6 +50,7 @@ const Demo1 = (props) => {
       <Select
         name='data'
         hasSearchBar
+        // isMulti
         value={selectedValue}
         options={options}
         onChange={handleSelectChange}
