@@ -25,42 +25,11 @@ const FieldWrapper = styled.div`
     -webkit-appearance: none;
     outline: none;
     border: none;
-    width: 100%;
     background: none;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-  }
-
-  .styleInput {
-    flex: 1;
-    -webkit-appearance: none;
-    outline: none;
-    border: none;
-    border-radius: inherit;
-    width: 100%;
-    background: none;
-    letter-spacing: 1px;
-    font-family: 'Noto Sans TC', sans-serif !important;
-
-    ::placeholder {
-      color: #cecccc;
-      letter-spacing: 1px;
-    }
-
-    &:disabled {
-      background: none;
-      color: #858585;
-      -webkit-text-fill-color: #858585;
-      opacity: 1;
-    }
-
-    &:-webkit-autofill {
-      -webkit-text-fill-color: ${COMMON_COLOR.BLACK};
-    }
-    &:-internal-autofill-selected {
-      box-shadow: inset 0px 0px 0px 30px white;
-    }
+    min-height: 23px;
   }
 
   .functionBtn{
@@ -74,7 +43,6 @@ const FieldWrapper = styled.div`
   }
 
   .menuBox{
-    ${SmallSrcollBar(6)}
     width: 100%;
     border: 1px solid ${COMMON_COLOR.GRAY};
     border-radius: inherit;
@@ -83,28 +51,37 @@ const FieldWrapper = styled.div`
     left: 0;
     top: 105%;
     z-index: 5;
-    overflow-y: auto;
-    max-height: 217px;
     cursor: auto;
-    ::-webkit-scrollbar-thumb {
-      background-clip: padding-box;
-      border: 1.5px solid transparent;
-      border-radius: 8px;
-    }
-    .item{
-      display: flex;
-      align-items: center;
-      padding: 10px 12px;
-      cursor: pointer;
-      &.active {
-        background: #75a3d366;
-        pointer-events: none;
+    .optionBox{
+      ${SmallSrcollBar(6)}
+      max-height: 217px;
+      ::-webkit-scrollbar-thumb {
+        background-clip: padding-box;
+        border: 1.5px solid transparent;
+        border-radius: 8px;
       }
-      &.disabled {
-        pointer-events: none;
+      .item{
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        cursor: pointer;
+        &.active {
+          background: #75a3d366;
+          pointer-events: none;
+        }
+        &.disabled {
+          pointer-events: none;
+        }
+        &:hover {
+          background: #b5c8e566;
+        }
       }
-      &:hover {
-        background: #b5c8e566;
+      .noOption{
+        color: ${COMMON_COLOR.GRAY};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0;
       }
     }
   }

@@ -5,6 +5,7 @@ import * as R from 'ramda';
 import { COMMON_COLOR } from '~~styles/_variables';
 import ClickOutside from '../ClickOutside';
 import FieldWrapper from './FieldWrapper';
+import Input from './Input'
 
 const Div = styled(FieldWrapper)`
   cursor: pointer;
@@ -17,18 +18,27 @@ const Div = styled(FieldWrapper)`
   .iconArrow.open{
     transform: rotate(180deg);
   }
+
+  .searchBar{
+    margin: 5px;
+    width: calc(100% - 10px);
+    border-color: ${COMMON_COLOR.GRAY}; 
+    border-radius: 30px;
+    padding: 5px 12px;
+  }
 `
 
 const Select = (props) => {
-  const [isMenuShow, setIsMenuShow] = useState(false);
+  const [isMenuShow, setIsMenuShow] = useState(true);
   const [term, setTerm] = useState('');
+  const [filteredOptions, setFilteredOptions] = useState([])
   const {
     name,
     value,
     options = [],
     className = 'selectWrapper',
     onChange = ()=>{},
-    placeholder = '請選擇',
+    placeholder = 'select',
     disabled = false,
     onBlur = ()=>{},
     hasSearchBar = false,
@@ -44,6 +54,16 @@ const Select = (props) => {
     setTerm('');
   }, [isMenuShow]);
 
+  useEffect(()=>{
+    if(options.length === 0) return
+    if(!term){
+      setFilteredOptions(options)
+    }else{
+      const opt = options.filter(item=>item.label.indexOf(term) > -1)
+      setFilteredOptions(opt)
+    }
+  },[term, options])
+
   function handleClickOutside() {
     handleMenuShow(false);
     onBlur();
@@ -54,9 +74,9 @@ const Select = (props) => {
   }
 
   function handleClick(e) {
-    handleMenuShow(!isMenuShow);
     e.preventDefault();
     e.stopPropagation();
+    handleMenuShow(!isMenuShow);
   }
 
   function getDisplayValue(){
@@ -73,16 +93,20 @@ const Select = (props) => {
   }
 
   function handleBlur() {
+    console.log('handleBlur??')
     if (isMenuShow) return;
     onBlur();
   }
 
   function handleChange(val, e) {
-    // console.log(name, '>> handleChange')
     e.stopPropagation();
     e.preventDefault();
-    onChange({fieldName: name, value: val});
+    onChange({ [name]: val });
     handleMenuShow(isMulti);
+  }
+
+  function handleTermChange(item){
+    setTerm(item.term)
   }
 
   return (
@@ -96,15 +120,24 @@ const Select = (props) => {
         onBlur={handleBlur}
       >
         <div className='valueBox' placeholder={placeholder}>
-         {value && options.length>0 && getDisplayValue()}
+          {value && options.length>0 && getDisplayValue()}
         </div>
-
-        {
-          isMenuShow && 
-            <div className='menuBox'>
+        {isMenuShow && 
+          <div className='menuBox' onClick={e=> e.stopPropagation()}>
+            {
+              hasSearchBar && 
+              <Input 
+                name='term'
+                value={term}
+                onChange={handleTermChange}
+                placeholder='search'
+                className='searchBar'
+              />
+            }
+            <div className='optionBox'>
               {
-                options.length > 0? 
-                options.map(item=>(
+                filteredOptions.length > 0? 
+                filteredOptions.map(item=>(
                   <div 
                     key={item.value}
                     className={item.value === value? 'item active':'item'}
@@ -112,11 +145,12 @@ const Select = (props) => {
                   >
                     {item.label}
                   </div>
-                )):<div className='item noOption'>No Option</div>
+                )):<div className='noOption'>No Option</div>
               }
             </div>
+          </div>
         }
-
+        
         <IoIosArrowDown  className={isMenuShow? 'functionBtn iconArrow open' : 'functionBtn iconArrow'}/>
       </Div>
     </ClickOutside>

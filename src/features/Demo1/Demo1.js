@@ -39,7 +39,7 @@ const Demo1 = (props) => {
   }, [])
 
   function handleSelectChange(item){
-    setSelectedValue(item.value)
+    setSelectedValue(item.data)
   }
 
   return (
