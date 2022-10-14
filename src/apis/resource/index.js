@@ -1,5 +1,5 @@
 import HomeResource from './HomeResource';
 
-export default {
+export  {
   HomeResource,
 };

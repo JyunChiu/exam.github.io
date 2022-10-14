@@ -31,7 +31,7 @@ function getBlobErrorCode(blob) {
 }
 
 const API_CONFIG = {
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: 'https://40008-201-skill.cubewise.asia/api/v1',
   timeout: 10000,
   withCredentials: true,
   // validateStatus: status => (status >= 200 && status <= 500),
@@ -68,7 +68,11 @@ const ApiService = {
 
   // withToken = true 要帶上 Authorization 的 header
   mergeHeaders(headers, withToken) {
-    let finalHeader = {};
+    let finalHeader = { 
+      // "Access-Control-Allow-Origin": "*",
+      // 'Accept': 'application/json',
+      //   'Content-Type': 'application/json;charset=UTF-8'
+    };
     if (withToken) {
       // TODO check token
       const token = `${sessionStorage.getItem('tokentype')} ${sessionStorage.getItem('token')}`;

@@ -6,9 +6,10 @@ import { useLocation } from 'react-router-dom';
 import * as CommonActions from '~~redux/CommonActions';
 
 const Div = styled.div`
-  padding: 10px 0%;
-  display: flex;
-  justify-content: center;
+  >div{
+    width: 100%;
+    min-height: 100vh;
+  }
 `;
 
 const App = (props) => {
