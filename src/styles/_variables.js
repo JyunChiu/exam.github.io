@@ -1,5 +1,11 @@
 import { css } from 'styled-components';
 
+const COMMON_COLOR = {
+  BLACK: '#5F5F5F',
+  GRAY: '#bababa'
+};
+
+// rwd 相關 --------------------------------------------------------------------
 const breakpoints = {
   desktop_2100: '2100px',
   desktop_1800: '1800px',
@@ -37,9 +43,8 @@ const respondBiggerThan = Object.keys(breakpoints).reduce(
   {}
 );
 
-
 export {
-  breakpoints,
+  COMMON_COLOR,
   respondSmallerThan,
   respondBiggerThan
 };

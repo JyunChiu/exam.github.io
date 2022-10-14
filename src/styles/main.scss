@@ -1,6 +1,9 @@
 //全站統一
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
 
+*{
+  box-sizing: border-box;
+}
 body {
   font-family: 'Noto Sans TC', sans-serif;
   margin: 0;
@@ -15,12 +18,6 @@ body {
 
   }
 
-  .modal-backdrop {
-    &.show {
-      opacity: 0.6
-    }
-  }
-
   &:not(.modal-open) {
     padding-right: 0px !important;
   }
@@ -28,9 +25,6 @@ body {
   img {
     width: 100%;
     height: auto;
-    user-select: none;
-    -webkit-touch-callout: none;
-    touch-action: manipulation;
   }
 
   p {
@@ -41,9 +35,8 @@ body {
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 6px;
-  // background: #a6a1a1;
-  // border-radius: 4px;
-  // box-shadow: inset 2px 0px 4px #7d7d7d;
+  background: #eeeeee;
+  border-radius: 4px;
 
   &:horizontal {
     height: 6px;
@@ -52,7 +45,7 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: none;
+  // box-shadow: none;
 
   &:horizontal {
     border: none;
@@ -61,13 +54,12 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  // background: linear-gradient(90deg, #bea07f, #edd1af);
-  // box-shadow: inset 2px 0px 4px -4px #ffffff;
-  // border-radius: 2px;
+  background: #80909d;
+  border-radius: 2px;
 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  // background: linear-gradient(90deg, #b7854e, #f7d19f);
+  background: #80909d;
 }
