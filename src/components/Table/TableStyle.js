@@ -79,6 +79,9 @@ const TableCell = styled.td`
     z-index: 1;
     left: ${props => `${props.position}px`}
   }
+  &.hasChildren{
+    background: #eeeeee !important;
+  }
 `;
 
 

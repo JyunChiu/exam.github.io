@@ -27,7 +27,7 @@ const columns = [
     className: 'btnCell',
     align: 'center',
     freeze: 'left',
-    // onCell: (record) => handleSelectEdit(record),
+    onCell: (record) => { },
     // render: (value, record) => <BntIcon iconType="edit" inverse />,
   },
   {

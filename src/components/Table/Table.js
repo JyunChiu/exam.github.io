@@ -13,6 +13,7 @@ const Table = (props) => {
   function handleClickCell(e, onCell, record) {
     e.stopPropagation();
     onCell(record);
+    console.log('??', e.detail)
   }
 
   function getCellClassName(item) {
@@ -22,6 +23,9 @@ const Table = (props) => {
     }
     if (item.freeze) {
       result.push('freeze');
+    }
+    if (item.children?.length > 0) {
+      result.push('hasChildren');
     }
 
     return result.join(' ');
@@ -35,8 +39,6 @@ const Table = (props) => {
     }, 0)
 
     return position
-
-    // return { left: `${position}px` }
   }
 
   return (
@@ -53,7 +55,6 @@ const Table = (props) => {
                   width={item.width}
                   align={item.titleAlign ? item.titleAlign : item.align}
                   position={item.freeze ? getPosition(`table-header--${index}`) : ''}
-                // style={item.freeze ? getPosition(`table-header--${index + 1}`) : ''}
                 >
                   {item.title}
                 </TableCell>
@@ -72,7 +73,6 @@ const Table = (props) => {
                       width={item.width}
                       align={item.align}
                       onClick={item.onCell ? (e) => handleClickCell(e, item.onCell, record) : () => { }}
-                      // style={item.freeze ? getPosition(`table-cell--${index + 1}`) : ''}
                       position={item.freeze ? getPosition(`table-header--${index}`) : ''}
                     >
                       {item.render
