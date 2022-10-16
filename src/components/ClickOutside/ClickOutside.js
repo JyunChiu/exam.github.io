@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
 const ClickOutside = props => {
-  const { 
-    children = '', 
-    onClickOutside = () => console.log('onClickOutside!'), 
+  const {
+    children,
+    onClickOutside = () => console.log('onClickOutside!'),
     excludeClass = [],
     className = ''
   } = props;

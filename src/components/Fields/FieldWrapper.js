@@ -16,8 +16,9 @@ const FieldWrapper = styled.div`
   }
 
   &.disabled {
-    background-image: linear-gradient(180deg, #f2f2f2, #d5d5d5),
-      linear-gradient(180deg, #b0b0b0, #e4e1e1, #ffffff);
+    background: #ececec;
+    border-color:  ${COMMON_COLOR.GRAY};
+    pointer-events: none;
   }
 
   .valueBox{

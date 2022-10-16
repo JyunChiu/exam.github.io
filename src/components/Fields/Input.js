@@ -36,12 +36,12 @@ const Input = (props) => {
     name,
     type = 'text',
     value,
-    className = 'inputWrapper',
-    onChange = ()=>{},
+    className = '',
+    onChange = () => { },
     placeholder = '',
     disabled = false,
-    onFocus = ()=>{},
-    onBlur = ()=>{},
+    onFocus = () => { },
+    onBlur = () => { },
 
   } = props;
   const triggerField = useRef(null);
@@ -56,7 +56,7 @@ const Input = (props) => {
     onBlur();
   }
 
-  function handleChange(e){
+  function handleChange(e) {
     const key = e.target.name;
     const val = e.target.value;
     onChange({ [key]: val });
@@ -75,11 +75,23 @@ const Input = (props) => {
     }
   }
 
+  function getClassName() {
+    let result = ['inputWrapper'];
+    if (className) {
+      result.push(className);
+    }
+    if (disabled) {
+      result.push('disabled');
+    }
+
+    return result.join(' ');
+  }
+
   return (
     <Div
       ref={triggerField}
-      className={className}
-      onClick={e=> e.stopPropagation()}
+      className={getClassName()}
+      onClick={e => e.stopPropagation()}
     >
       <input
         id={`input--${name}`}

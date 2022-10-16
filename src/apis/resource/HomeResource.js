@@ -2,11 +2,12 @@ import CommonUtils from '../../utils/CommonUtils';
 import ApiService from '../ApiService';
 
 const debugStatus = {
-  testApi: false,
+  getDimensions: false,
+  getElements: false,
 };
 
 const HomeResource = {
-  testApi: (data) => {
+  getDimensions: (data) => {
     // console.log('Resource -----', data)
     if (debugStatus.testApi) {
       return CommonUtils.fakeApiHelper(200, 'success', {
@@ -16,7 +17,19 @@ const HomeResource = {
       });
     }
     return ApiService.get(`/Dimensions`, {
-      // headers: {"Access-Control-Allow-Origin": "*"}
+    });
+  },
+
+  getElements: (data) => {
+    // console.log('Resource -----', data)
+    if (debugStatus.getElements) {
+      return CommonUtils.fakeApiHelper(200, 'success', {
+        error: false,
+        message: 'Get successfully',
+        test: data
+      });
+    }
+    return ApiService.get(`/Dimensions('${data}')/Hierarchies('${data}')?$expand=Elements`, {
     });
   },
 };

@@ -66,11 +66,11 @@ const Select = (props) => {
     name,
     value,
     options = [],
-    className = 'selectWrapper',
-    onChange = ()=>{},
+    className = '',
+    onChange = () => { },
     placeholder = 'select',
     disabled = false,
-    onBlur = ()=>{},
+    onBlur = () => { },
     hasSearchBar = false,
     isMulti = false,
 
@@ -84,15 +84,15 @@ const Select = (props) => {
     setTerm('');
   }, [isMenuShow]);
 
-  useEffect(()=>{
-    if(options.length === 0) return
-    if(!term){
+  useEffect(() => {
+    if (options.length === 0) return
+    if (!term) {
       setFilteredOptions(options)
-    }else{
-      const opt = options.filter(item=>item.label.indexOf(term) > -1)
+    } else {
+      const opt = options.filter(item => item.label.indexOf(term) > -1)
       setFilteredOptions(opt)
     }
-  },[term, options])
+  }, [term, options])
 
   function handleClickOutside() {
     handleMenuShow(false);
@@ -109,33 +109,33 @@ const Select = (props) => {
     handleMenuShow(!isMenuShow);
   }
 
-  function getDisplayValue(){
+  function getDisplayValue() {
     let result = ''
 
-    if(isMulti){
-      result = value.map((item, index)=> (
-        <div className='mutiItem' key={item} onClick={e=> e.stopPropagation()}>
+    if (isMulti) {
+      result = value.map((item, index) => (
+        <div className='mutiItem' key={item} onClick={e => e.stopPropagation()}>
           {getSelectedOptionLabel(item)}
-          <BsX className='iconRemove'  onClick={(e)=>handleRemoveMultiItem(e, index)}/>
+          <BsX className='iconRemove' onClick={(e) => handleRemoveMultiItem(e, index)} />
         </div>
       ))
-    }else{
+    } else {
       result = getSelectedOptionLabel(value)
     }
 
     return result
   }
 
-  function handleRemoveMultiItem(e, index){
+  function handleRemoveMultiItem(e, index) {
     e.stopPropagation();
     const list = [...value]
     list.splice(index, 1)
     onChange({ [name]: list });
   }
 
-  function getSelectedOptionLabel(val){
+  function getSelectedOptionLabel(val) {
     const obj = R.find(R.propEq('value', val))(options)
-    return obj?.label?? ''
+    return obj?.label ?? ''
   }
 
   function handleBlur() {
@@ -147,32 +147,44 @@ const Select = (props) => {
   function handleChange(val, e) {
     e.stopPropagation();
     e.preventDefault();
-    let result = isMulti? [...value, val] : val
-    if(isMulti){
+    let result = isMulti ? [...value, val] : val
+    if (isMulti) {
       const list = [...value]
       const index = list.indexOf(val)
-      if(index>-1){
+      if (index > -1) {
         list.splice(index, 1)
         result = list
-      }else{
-        result=[...list, val]
+      } else {
+        result = [...list, val]
       }
 
-    }else{
+    } else {
       result = val
     }
     onChange({ [name]: result });
     handleMenuShow(isMulti);
   }
 
-  function handleTermChange(item){
+  function handleTermChange(item) {
     setTerm(item.term)
   }
 
-  function getOptionClass(val){
-    let condition = isMulti?  value.includes(val) :  val === value;
+  function getOptionClass(val) {
+    let condition = isMulti ? value.includes(val) : val === value;
 
-    return condition? 'item active' : 'item unSelected'
+    return condition ? 'item active' : 'item unSelected'
+  }
+
+  function getClassName() {
+    let result = ['selectWrapper'];
+    if (className) {
+      result.push(className);
+    }
+    if (disabled) {
+      result.push('disabled');
+    }
+
+    return result.join(' ');
   }
 
   return (
@@ -181,18 +193,18 @@ const Select = (props) => {
     >
       <Div
         ref={triggerField}
-        className={className}
+        className={getClassName()}
         onClick={handleClick}
         onBlur={handleBlur}
       >
         <div className='valueBox' placeholder={placeholder}>
-          {value && options.length>0 && getDisplayValue()}
+          {value && options.length > 0 && getDisplayValue()}
         </div>
-        {isMenuShow && 
-          <div className='menuBox' onClick={e=> e.stopPropagation()}>
+        {isMenuShow &&
+          <div className='menuBox' onClick={e => e.stopPropagation()}>
             {
-              hasSearchBar && 
-              <Input 
+              hasSearchBar &&
+              <Input
                 name='term'
                 value={term}
                 onChange={handleTermChange}
@@ -202,22 +214,22 @@ const Select = (props) => {
             }
             <div className='optionBox'>
               {
-                filteredOptions.length > 0? 
-                filteredOptions.map(item=>(
-                  <div 
-                    key={item.value}
-                    className={getOptionClass(item.value)}
-                    onClick={e => handleChange(item.value, e)}
-                  >
-                    {item.label}
-                  </div>
-                )):<div className='noOption'>No Option</div>
+                filteredOptions.length > 0 ?
+                  filteredOptions.map(item => (
+                    <div
+                      key={item.value}
+                      className={getOptionClass(item.value)}
+                      onClick={e => handleChange(item.value, e)}
+                    >
+                      {item.label}
+                    </div>
+                  )) : <div className='noOption'>No Option</div>
               }
             </div>
           </div>
         }
-        
-        <IoIosArrowDown  className={isMenuShow? 'functionBtn iconArrow open' : 'functionBtn iconArrow'}/>
+
+        <IoIosArrowDown className={isMenuShow ? 'functionBtn iconArrow open' : 'functionBtn iconArrow'} />
       </Div>
     </ClickOutside>
   )
