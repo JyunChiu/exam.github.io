@@ -126,7 +126,10 @@ const Demo1 = (props) => {
     const mdxList = mdxCode.split(/[ ,/\n]+/)
     const dimensionName = handleMappingMdxCode('UniqueName', mdxList[0].split('.', 1)[0], dimensionOpts, 'value')
     setDimension(dimensionName)
-    if (!dimensionName) return
+    if (!dimensionName) {
+      setElements([])
+      return
+    }
     getElements(dimensionName, mdxList)
   }
 

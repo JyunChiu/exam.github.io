@@ -23,7 +23,7 @@ const Div = styled.div`
 
   &.disabled {
     pointer-events: none;
-    background: ${COMMON_COLOR.GRAY};
+    filter: grayscale(1);
   }
 
   &:hover{

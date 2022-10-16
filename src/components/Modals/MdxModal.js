@@ -10,7 +10,6 @@ import { Button } from '~~components/Buttons';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '~~components/Modals';
 import { COMMON_COLOR } from '~~styles/_variables';
 
-
 const StyledModal = styled(Modal)`
   .modal-content {
     .modal-title{
@@ -32,6 +31,11 @@ const StyledModal = styled(Modal)`
     /* Footer Style */
     .modal-footer {
       padding: 10px 0 20px;
+      .btnSave{
+        background: ${COMMON_COLOR.BLUE};
+        border-color: ${COMMON_COLOR.BLUE};
+        color: ${COMMON_COLOR.WHITE};
+      }
     }
   }
 `;
@@ -59,9 +63,7 @@ const MdxModal = (props) => {
   function handleSave() {
     toggleClose();
     const isSameWithOrginal = R.equals(orginalCode, mdxCode)
-    console.log('isSameWithOrginal', isSameWithOrginal)
     if (isSameWithOrginal) return
-    console.log('onSave')
     onSave();
   }
 
@@ -84,8 +86,8 @@ const MdxModal = (props) => {
         />
       </ModalBody>
       <ModalFooter>
-        <Button onClick={handleSave}>Save</Button>
-        <Button onClick={toggleClose}>Cancel</Button>
+        <Button onClick={handleSave} className='btnSave'>Save</Button>
+        <Button onClick={toggleClose}>Close</Button>
       </ModalFooter>
     </StyledModal>
   );
