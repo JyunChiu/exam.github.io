@@ -83,10 +83,11 @@ const MdxModal = (props) => {
           value={mdxCode}
           readOnly={readOnly}
           tabSize={2}
+          showPrintMargin={false}
         />
       </ModalBody>
       <ModalFooter>
-        <Button onClick={handleSave} className='btnSave'>Save</Button>
+        <Button onClick={handleSave} className='btnSave' disabled={readOnly}>Save</Button>
         <Button onClick={toggleClose}>Close</Button>
       </ModalFooter>
     </StyledModal>
