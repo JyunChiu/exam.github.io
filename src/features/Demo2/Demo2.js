@@ -30,9 +30,8 @@ const columns = [
     className: 'btnCell',
     align: 'left',
     titleAlign: 'center',
-    freeze: 'left',
     sortable: true,
-    render: (value, record) => <span>{value}</span>,
+    // render: (value, record) => <span>{value}</span>,
   },
   {
     title: 'Q1-2004',
@@ -290,14 +289,14 @@ WHERE (
         <Table
           columns={columns}
           dataSource={dataSource}
+          columnHeaderFreeze
           showGutter={
             {
               title: '',
-              dataIndex: 'no',
+              dataIndex: '',
               width: '2rem',
-              className: 'btnCell',
+              className: 'gutterCell',
               align: 'center',
-              freeze: 'left',
             }}
         />
       </TableBox>

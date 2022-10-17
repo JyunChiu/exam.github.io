@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { TableCell } from './TableStyle';
@@ -11,6 +11,7 @@ const SORTORDER = {
 
 const Table = (props) => {
   const { 
+    columnHeaderFreeze = false,
     showGutter = false,
     columns = [], 
     dataSource = [], 
@@ -51,9 +52,6 @@ const Table = (props) => {
     if (item.className) {
       result.push(item.className);
     }
-    if (item.freeze) {
-      result.push('freeze');
-    }
     if (item.children?.length > 0) {
       result.push('hasChildren');
     }
@@ -64,15 +62,6 @@ const Table = (props) => {
     return result.join(' ');
   }
 
-  function getPosition(id) {
-    const index = Number(id.split('--')[1])
-    const position = [...Array(index).keys()].reduce((prev, curr) => {
-      const elem = document.getElementById(`${id.split('--')[0]}--${curr + 1}`);
-      return prev + (elem?.offsetWidth ?? 0)
-    }, 0)
-
-    return position
-  }
 
   function handleColumnSort(column){
     const index = handleFindItem('column', column, sortInfo, 'findIndex')
@@ -128,7 +117,8 @@ const Table = (props) => {
         className={getCellClassName(item)}
         width={item.width}
         align={item.align}
-        position={item.freeze ? getPosition(`table-${key}--${index}`) : ''}
+        columnHeaderFreeze={columnHeaderFreeze}
+        showGutter={showGutter}
         {...props}
       >
        {props.children}
@@ -148,33 +138,35 @@ const Table = (props) => {
 
   return (
     <>
-      {data.length > 0 ? (
+      {data.length > 0 ?
         <table>
           <thead className="tableHeadZone" >
             <tr>
               {
                 showGutter && 
-                  getTableCell(showGutter, 0, 'header', {
-                    align: showGutter.titleAlign ? showGutter.titleAlign : showGutter.align,
-                    children: <>{showGutter.title} </>
-                  })
+                getTableCell(showGutter, 0, 'header', {
+                  align: showGutter.titleAlign ? showGutter.titleAlign : showGutter.align,
+                  children: <>{showGutter.title} </>
+                })
               }
               {columnData.map((item, index) => (
                 <>
-                  {getTableCell(item, showGutter? index+1 : index, 'header', {
-                    align: item.titleAlign ? item.titleAlign : item.align,
-                    children:(
-                      <div>
-                        {item?.children?.length>0 && 
-                          (item.showChildren? 
-                            <AiFillMinusSquare className='iconExpand' onClick={(e)=>handleColumnExpand(e, item.dataIndex)} /> 
-                          : <AiFillPlusSquare className='iconExpand'  onClick={(e)=>handleColumnExpand(e, item.dataIndex)} /> )
-                        }
-                        <span onClick={()=> (item.sortable? handleColumnSort(item.dataIndex) : {})}>{item.title}</span>
-                        {item.sortable && getSortIcon(item.dataIndex)}
-                      </div>
-                    )
-                  })}
+                  {
+                    getTableCell(item, showGutter? index+1 : index, 'header', {
+                      align: item.titleAlign ? item.titleAlign : item.align,
+                      children:(
+                        <div>
+                          {item?.children?.length>0 && 
+                            (item.showChildren? 
+                              <AiFillMinusSquare className='iconExpand' onClick={(e)=>handleColumnExpand(e, item.dataIndex)} /> 
+                            : <AiFillPlusSquare className='iconExpand'  onClick={(e)=>handleColumnExpand(e, item.dataIndex)} /> )
+                          }
+                          <span onClick={()=> (item.sortable? handleColumnSort(item.dataIndex) : {})}>{item.title}</span>
+                          {item.sortable && getSortIcon(item.dataIndex)}
+                        </div>
+                      )
+                    })
+                  }
                   {
                     item.showChildren && 
                     (item.children.map((child)=>(
@@ -205,17 +197,19 @@ const Table = (props) => {
                   }
                   {columnData.map((item, index) => (
                     <>
-                      {getTableCell(item, showGutter? index+1 : index, 'cell', {
-                        align: item.titleAlign ? item.titleAlign : item.align,
-                        onClick: item.onCell ? (e) => handleClickCell(e, item.onCell, record) : () => {},
-                        children: (
-                          <div>
-                            {item.render? 
-                              item.render(record[item.dataIndex], record, dataInd)
-                            : record[item.dataIndex]}
-                          </div>
-                        )
-                      })}
+                      {
+                        getTableCell(item, showGutter? index+1 : index, 'cell', {
+                          align: item.titleAlign ? item.titleAlign : item.align,
+                          onClick: item.onCell ? (e) => handleClickCell(e, item.onCell, record) : () => {},
+                          children: (
+                            <div>
+                              {item.render? 
+                                item.render(record[item.dataIndex], record, dataInd)
+                              : record[item.dataIndex]}
+                            </div>
+                          )
+                        })
+                      }
                       {
                         item.showChildren && 
                         (item.children.map((child)=>(
@@ -237,9 +231,9 @@ const Table = (props) => {
               );
             })}
           </tbody>
-        </table>) : (
+        </table> : 
         <div className="emptyTable">No Data</div>
-      )}
+      }
     </>
   );
 };

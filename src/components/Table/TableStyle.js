@@ -95,14 +95,20 @@ const TableCell = styled.td`
       text-overflow: ellipsis;
     }
   }
+  &:first-child{
+    position: ${props=>(props.columnHeaderFreeze || props.showGutter)? 'sticky' : 'unset'};
+    z-index: 1;
+    left: 0;
+  }
+  &:nth-child(2){
+    position: ${props=>(props.columnHeaderFreeze && props.showGutter)? 'sticky' : 'unset'};
+    z-index: 1;
+    left: 32px;
+  }
   &:not(:last-child){
     border-right: 1px solid ${COMMON_COLOR.GRAY};
   }
-  &.freeze{
-    position: sticky;
-    z-index: 1;
-    left: ${props => `${props.position}px`}
-  }
+  
   &.hasChildren{
     background: #eeeeee !important;
   }
