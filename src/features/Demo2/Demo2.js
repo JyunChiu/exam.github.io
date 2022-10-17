@@ -8,6 +8,7 @@ import { HomeResource } from '~~apis/resource';
 import { TableBox, Table } from '~~components/Table';
 import { Button } from '~~components/Buttons';
 import { MdxModal } from '~~components/Modals';
+import { comma } from '~~utils/CommonUtils';
 
 const Div = styled.div`
   display: flex;
@@ -21,16 +22,6 @@ const Div = styled.div`
 
 const columns = [
   {
-    title: '',
-    dataIndex: 'no',
-    width: '3rem',
-    className: 'btnCell',
-    align: 'center',
-    freeze: 'left',
-    onCell: (record) => { },
-    // render: (value, record) => <BntIcon iconType="edit" inverse />,
-  },
-  {
     title: 'plan_chart_of_accounts',
     dataIndex: 'accountName',
     width: '12rem',
@@ -38,6 +29,7 @@ const columns = [
     align: 'left',
     titleAlign: 'center',
     freeze: 'left',
+    sortable: true,
   },
   {
     title: 'Q1-2004',
@@ -45,7 +37,8 @@ const columns = [
     width: '20rem',
     className: 'btnCell',
     align: 'right',
-    render: (value, record) => Math.round(value),
+    sortable: true,
+    render: (value, record) => comma(Math.round(value)),
     children: [
       {
         title: 'Jan-2004',
@@ -76,6 +69,7 @@ const columns = [
     width: '20rem',
     className: 'btnCell',
     align: 'right',
+    sortable: true,
     children: [
       {
         title: 'Apr-2004',
@@ -106,6 +100,7 @@ const columns = [
     width: '20rem',
     className: 'btnCell',
     align: 'right',
+    sortable: true,
     children: [
       {
         title: 'Jul-2004',
@@ -136,6 +131,7 @@ const columns = [
     width: '20rem',
     className: 'btnCell',
     align: 'right',
+    sortable: true,
     children: [
       {
         title: 'Oct-2004',
@@ -180,7 +176,7 @@ WHERE (
 )`)
   const [dataSource, setDataSource] = useState([])
 
-  console.log('dataSource', dataSource)
+  // console.log('dataSource', dataSource)
 
   useEffect(() => {
     getTableByMdx(mdxCode)
@@ -221,22 +217,22 @@ WHERE (
           const group = 15 * index
           return {
             ...item,
-            [columns[2].dataIndex]: Cells[group + item.no - 1].Value,
-            [columns[2].children[0].dataIndex]: Cells[group + item.no].Value,
-            [columns[2].children[1].dataIndex]: Cells[group + item.no + 1].Value,
-            [columns[2].children[2].dataIndex]: Cells[group + item.no + 2].Value,
-            [columns[3].dataIndex]: Cells[group + item.no + 3].Value,
-            [columns[3].children[0].dataIndex]: Cells[group + item.no + 4].Value,
-            [columns[3].children[1].dataIndex]: Cells[group + item.no + 5].Value,
-            [columns[3].children[2].dataIndex]: Cells[group + item.no + 6].Value,
-            [columns[4].dataIndex]: Cells[group + item.no + 7].Value,
-            [columns[4].children[0].dataIndex]: Cells[group + item.no + 8].Value,
-            [columns[4].children[1].dataIndex]: Cells[group + item.no + 9].Value,
-            [columns[4].children[2].dataIndex]: Cells[group + item.no + 10].Value,
-            [columns[5].dataIndex]: Cells[group + item.no + 11].Value,
-            [columns[5].children[0].dataIndex]: Cells[group + item.no + 12].Value,
-            [columns[5].children[1].dataIndex]: Cells[group + item.no + 13].Value,
-            [columns[5].children[2].dataIndex]: Cells[group + item.no + 14].Value,
+            [columns[1].dataIndex]: Cells[group + item.no - 1].Value,
+            [columns[1].children[0].dataIndex]: Cells[group + item.no].Value,
+            [columns[1].children[1].dataIndex]: Cells[group + item.no + 1].Value,
+            [columns[1].children[2].dataIndex]: Cells[group + item.no + 2].Value,
+            [columns[2].dataIndex]: Cells[group + item.no + 3].Value,
+            [columns[2].children[0].dataIndex]: Cells[group + item.no + 4].Value,
+            [columns[2].children[1].dataIndex]: Cells[group + item.no + 5].Value,
+            [columns[2].children[2].dataIndex]: Cells[group + item.no + 6].Value,
+            [columns[3].dataIndex]: Cells[group + item.no + 7].Value,
+            [columns[3].children[0].dataIndex]: Cells[group + item.no + 8].Value,
+            [columns[3].children[1].dataIndex]: Cells[group + item.no + 9].Value,
+            [columns[3].children[2].dataIndex]: Cells[group + item.no + 10].Value,
+            [columns[4].dataIndex]: Cells[group + item.no + 11].Value,
+            [columns[4].children[0].dataIndex]: Cells[group + item.no + 12].Value,
+            [columns[4].children[1].dataIndex]: Cells[group + item.no + 13].Value,
+            [columns[4].children[2].dataIndex]: Cells[group + item.no + 14].Value,
           }
         })
         setDataSource(newList)
@@ -270,6 +266,15 @@ WHERE (
         <Table
           columns={columns}
           dataSource={dataSource}
+          showGutter={
+            {
+              title: '',
+              dataIndex: 'no',
+              width: '3rem',
+              className: 'btnCell',
+              align: 'center',
+              freeze: 'left',
+            }}
         />
       </TableBox>
       <MdxModal

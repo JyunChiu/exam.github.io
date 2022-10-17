@@ -1,4 +1,4 @@
-import CommonUtils from '../../utils/CommonUtils';
+import {fakeApiHelper} from '~~utils/CommonUtils';
 import ApiService from '../ApiService';
 
 const debugStatus = {
@@ -12,7 +12,7 @@ const HomeResource = {
   getDimensions: (data) => {
     // console.log('Resource -----', data)
     if (debugStatus.testApi) {
-      return CommonUtils.fakeApiHelper(200, 'success', {
+      return fakeApiHelper(200, 'success', {
         error: false,
         message: 'Get successfully',
         test: data
@@ -24,7 +24,7 @@ const HomeResource = {
   getElements: (data) => {
     // console.log('Resource -----', data)
     if (debugStatus.getElements) {
-      return CommonUtils.fakeApiHelper(200, 'success', {
+      return fakeApiHelper(200, 'success', {
         error: false,
         message: 'Get successfully',
         test: data
@@ -35,7 +35,7 @@ const HomeResource = {
 
   getTableByMdx: (data) => {
     if (debugStatus.getTableByMdx) {
-      return CommonUtils.fakeApiHelper(200, 'success', {
+      return fakeApiHelper(200, 'success', {
         error: false,
         message: 'Get successfully',
         test: data
@@ -49,7 +49,7 @@ const HomeResource = {
 
   getCells: (data) => {
     if (debugStatus.getCells) {
-      return CommonUtils.fakeApiHelper(200, 'success', {
+      return fakeApiHelper(200, 'success', {
         error: false,
         message: 'Get successfully',
         test: data

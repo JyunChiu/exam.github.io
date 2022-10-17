@@ -1,3 +1,5 @@
+import _isNumber from "lodash/isNumber"
+
 const randomBetween = (max, min) => Math.floor(Math.random() * (max - min + 1)) + min;
 // fakeApiHelper
 // responseType: success | fail | random | inOrder
@@ -45,6 +47,15 @@ const fakeApiHelper = (
   });
 };
 
-export default {
+const comma = (value, defaultValue='') =>{
+  if(!_isNumber(value)){
+    return defaultValue
+  }
+
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export{
   fakeApiHelper,
+  comma
 };

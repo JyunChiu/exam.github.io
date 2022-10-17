@@ -34,6 +34,13 @@ const TableBox = styled.div`
       .tableCell{
         background: #eeeeee;
         border-bottom-width: 1px;
+        &.sortable{
+          cursor: pointer;
+        }
+        .iconSort{
+          font-size: 14px;
+          margin: 0 0 0 2px;
+        }
       }
     }
     ::-webkit-scrollbar {
