@@ -40,6 +40,14 @@ const TableBox = styled.div`
         .iconSort{
           font-size: 14px;
           margin: 0 0 0 2px;
+          transition: .4s ease;
+        }
+        .iconExpand{
+          margin: 0 4px 0 0;
+          transition: .4s ease;
+        }
+        .iconSort:active, .iconExpand:active{
+          transform: scale(0.9);
         }
       }
     }
@@ -60,24 +68,33 @@ const TableBox = styled.div`
         background: ${COMMON_COLOR.WHITE};
       }
     }
-    .emptyTable{
-      display: flex;
-      justify-content: center;
-      margin: 8% 0;
-      font-weight: 500;
-    }
+  }
+
+  .emptyTable{
+    display: flex;
+    justify-content: center;
+    margin: 8% 0;
+    font-size: 1rem;
+    font-weight: 500;
   }
 
 `;
 
 const TableCell = styled.td`
-  padding: 5px 5px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  padding: 5px;
   width: ${props => props.width || 'auto'};
-  text-align: ${props => props.align || 'center'};
   letter-spacing: 0;
+  text-align: ${props => props.align || 'center'};
+  >div{
+    display: flex;
+    align-items: center;
+    justify-content: ${props=>alignSwitch( props.align)};
+    >span{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
   &:not(:last-child){
     border-right: 1px solid ${COMMON_COLOR.GRAY};
   }
@@ -91,6 +108,16 @@ const TableCell = styled.td`
   }
 `;
 
+function alignSwitch(align){
+  switch(align){
+    case 'left':
+      return 'flex-start'
+    case 'right':
+      return 'flex-end'
+    default:
+      return 'center'
+  }
+}
 
 export {
   TableBox,

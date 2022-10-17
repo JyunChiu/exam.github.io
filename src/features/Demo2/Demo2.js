@@ -20,139 +20,164 @@ const Div = styled.div`
   }
 `
 
+const columnWidth = '6rem'
+
 const columns = [
   {
     title: 'plan_chart_of_accounts',
     dataIndex: 'accountName',
-    width: '12rem',
+    width: '10rem',
     className: 'btnCell',
     align: 'left',
     titleAlign: 'center',
     freeze: 'left',
     sortable: true,
+    render: (value, record) => <span>{value}</span>,
   },
   {
     title: 'Q1-2004',
     dataIndex: 'Q1-2004',
-    width: '20rem',
+    width: columnWidth,
     className: 'btnCell',
     align: 'right',
     sortable: true,
     render: (value, record) => comma(Math.round(value)),
+    showChildren: true,
     children: [
       {
         title: 'Jan-2004',
         dataIndex: 'Jan-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        sortable: true,
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Feb-2004',
         dataIndex: 'Feb-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        sortable: true,
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Mar-2004',
         dataIndex: 'Mar-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        sortable: true,
+        render: (value, record) => comma(Math.round(value)),
       },
     ]
   },
   {
     title: 'Q2-2004',
     dataIndex: 'Q2-2004',
-    width: '20rem',
+    width: columnWidth,
     className: 'btnCell',
     align: 'right',
     sortable: true,
+    render: (value, record) => comma(Math.round(value)),
+    showChildren: true,
     children: [
       {
         title: 'Apr-2004',
         dataIndex: 'Apr-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'May-2004',
         dataIndex: 'May-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Jun-2004',
         dataIndex: 'Jun-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
     ]
   },
   {
     title: 'Q3-2004',
     dataIndex: 'Q3-2004',
-    width: '20rem',
+    width: columnWidth,
     className: 'btnCell',
     align: 'right',
     sortable: true,
+    render: (value, record) => comma(Math.round(value)),
+    showChildren: true,
     children: [
       {
         title: 'Jul-2004',
         dataIndex: 'Jul-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Aug-2004',
         dataIndex: 'Aug-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Sep-2004',
         dataIndex: 'Sep-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
     ]
   },
   {
     title: 'Q4-2004',
     dataIndex: 'Q4-2004',
-    width: '20rem',
+    width: columnWidth,
     className: 'btnCell',
     align: 'right',
     sortable: true,
+    render: (value, record) => comma(Math.round(value)),
+    showChildren: true,
     children: [
       {
         title: 'Oct-2004',
         dataIndex: 'Oct-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Nov-2004',
         dataIndex: 'Nov-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
       {
         title: 'Dec-2004',
         dataIndex: 'Dec-2004',
-        width: '',
+        width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        render: (value, record) => comma(Math.round(value)),
       },
     ]
   },
@@ -199,7 +224,6 @@ WHERE (
             }, { accountName: key.Attributes.AccountName, name: key.Name, no: index + 1 })
           return updatedItem
         })
-
         setDataSource(list)
         getCells(data.ID, list)
       })
@@ -270,7 +294,7 @@ WHERE (
             {
               title: '',
               dataIndex: 'no',
-              width: '3rem',
+              width: '2rem',
               className: 'btnCell',
               align: 'center',
               freeze: 'left',
