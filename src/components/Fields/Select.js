@@ -26,6 +26,7 @@ const Div = styled(FieldWrapper)`
       border-radius: 4px;
       transition: 0.5s ease all;
       margin: 2px 0;
+      pointer-events: none;
       &:not(:last-child){
         margin-right: 5px;
       }
@@ -36,6 +37,7 @@ const Div = styled(FieldWrapper)`
       .iconRemove{
         font-size: 18px;
         cursor: pointer;
+        pointer-events: auto;
       }
     }
   }
