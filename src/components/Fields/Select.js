@@ -91,7 +91,7 @@ const Select = (props) => {
     if (!term) {
       setFilteredOptions(options)
     } else {
-      const opt = options.filter(item => item.label.indexOf(term) > -1)
+      const opt = options.filter(item => (item.label.toString().toUpperCase()).indexOf((term.toUpperCase().toString())) > -1)
       setFilteredOptions(opt)
     }
   }, [term, options])

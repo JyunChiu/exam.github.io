@@ -9,6 +9,7 @@ import { TableBox, Table } from '~~components/Table';
 import { Button } from '~~components/Buttons';
 import { MdxModal } from '~~components/Modals';
 import { comma } from '~~utils/CommonUtils';
+import BarChart from './Bar';
 
 const Div = styled.div`
   display: flex;
@@ -199,6 +200,8 @@ WHERE (
   [plan_source].[plan_source].[input]
 )`)
   const [dataSource, setDataSource] = useState([])
+  const [chartXOpt, setChartOpt] = useState([])
+  const [chartGroupOpt, setChartGroupOpt] = useState([])
 
   // console.log('dataSource', dataSource)
 
@@ -213,6 +216,9 @@ WHERE (
         const { data } = response
         let list = data.Axes[1].Tuples.map((item, index) => {
           const key = item.Members[0]
+          //chartXOpt
+          setChartOpt(prev => ([...prev, { label: key.Attributes.AccountName, value: key.Name }]))
+          //dataSource item
           const updatedItem =
             data.Axes[0].Tuples.reduce((prev, curr) => {
               const key = curr?.Members[0]
@@ -223,6 +229,11 @@ WHERE (
             }, { accountName: key.Attributes.AccountName, name: key.Name, no: index + 1 })
           return updatedItem
         })
+
+        //chartGroup
+        const group = data.Axes[0].Tuples.map(item => ({ label: item.Members[0].Name, value: item.Members[0].Name }))
+        setChartGroupOpt(group)
+
         setDataSource(list)
         getCells(data.ID, list)
       })
@@ -300,6 +311,11 @@ WHERE (
             }}
         />
       </TableBox>
+      <BarChart
+        dataSource={dataSource}
+        chartXOpt={chartXOpt}
+        chartGroupOpt={chartGroupOpt}
+      />
       <MdxModal
         isOpen={isMdxOpen}
         toggleClose={() => handleModalClick(false)}
