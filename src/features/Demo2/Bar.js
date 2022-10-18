@@ -22,9 +22,9 @@ import { IoMdHeartEmpty } from 'react-icons/io';
 const COLORS = [
   '#6d86b2',
   '#799d91',
-  '#9da17b',
-  '#e2ca88',
   '#e3a8bb',
+  '#e2ca88',
+  '#9da17b',
   '#a396c7',
   '#5ca6a9',
   '#c96b6b',
@@ -44,6 +44,7 @@ const Div = styled.div`
   .wrapper{
     display: flex;
     align-items: center;
+    justify-content: center;
     margin: 20px 0 10px;
     width: 100%;
   }
@@ -60,7 +61,6 @@ const Div = styled.div`
   .chartWrapper{
     width: 100%;
     height: 400px;
-    /* border: 1px solid; */
     .recharts-default-legend{
       font-size: 12px;
       margin: 0 40px;
@@ -94,9 +94,20 @@ const BarComponent = (props) => {
 
   useEffect(() => {
     const list = dataSource.filter(item => xAxisData.includes(item.name))
-    console.log('xAxisData', list)
     setData(list)
-  }, [JSON.stringify(xAxisData)])
+  }, [JSON.stringify(xAxisData), JSON.stringify(dataSource)])
+
+  useEffect(() => {
+    setxAxisData([
+      chartXOpt[0]?.value,
+      chartXOpt[1]?.value,
+      chartXOpt[2]?.value,
+      chartXOpt[3]?.value,
+      chartXOpt[4]?.value,
+      chartXOpt[5]?.value
+    ])
+    setBarGroup(['Q1-2004', 'Q2-2004', 'Q3-2004', 'Q4-2004'])
+  }, [JSON.stringify(chartXOpt), JSON.stringify(chartGroupOpt)])
 
   useEffect(() => {
     if (!chartWrapper.current) return;
@@ -105,10 +116,6 @@ const BarComponent = (props) => {
       height: chartWrapper.current.clientHeight,
       margin: { top: 25, bottom: 10, left: 20, right: 20 },
     });
-    setData([])
-    setxAxisData([])
-    setBarGroup([])
-
   }, [chartWrapper, JSON.stringify(dataSource)])
 
   return (
@@ -159,7 +166,7 @@ const BarComponent = (props) => {
             <Legend />
             {
               barGroup.map((item, index) => (
-                <Bar dataKey={item} fill={COLORS[index]} />
+                <Bar dataKey={item} fill={COLORS[index]} key={item} />
               ))
             }
           </BarChart>

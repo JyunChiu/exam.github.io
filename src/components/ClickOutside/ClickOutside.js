@@ -16,11 +16,12 @@ const ClickOutside = props => {
 
   function handleClickOutside(event) {
     const node = event.target;
+    let isAnyCommon
 
-    if (typeof node.className !== 'string') return;
-    const classList = node.className.split(' ');
-    // console.log('classList', classList)
-    const isAnyCommon = classList.some(item => excludeClass.includes(item));
+    if (typeof node.className === 'string') {
+      const classList = node.className.split(' ');
+      isAnyCommon = classList.some(item => excludeClass.includes(item));
+    }
     if (isAnyCommon) return;
 
     if (wrapperRef.current && !wrapperRef.current.contains(node)) {
