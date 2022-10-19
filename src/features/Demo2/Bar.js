@@ -22,9 +22,9 @@ import { IoMdHeartEmpty } from 'react-icons/io';
 const COLORS = [
   '#6d86b2',
   '#799d91',
-  '#e3a8bb',
-  '#e2ca88',
   '#9da17b',
+  '#e2ca88',
+  '#e3a8bb',
   '#a396c7',
   '#5ca6a9',
   '#c96b6b',
@@ -55,7 +55,7 @@ const Div = styled.div`
     }
     .selectWrapper{
       min-width: 260px;
-      min-height: 44px;
+      min-height: 46px;
     }
   }
   .chartWrapper{
@@ -73,7 +73,11 @@ const Div = styled.div`
         align-items: center;
       }
     }
-    
+    .recharts-tooltip-wrapper{
+      &:focus{
+        outline: none;
+      }
+    }
     text{
       font-size: 12px;
     }

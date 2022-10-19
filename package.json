@@ -2,6 +2,7 @@
   "name": "testreactapp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jyunchiu.github.io/examination",
   "dependencies": {
     "@craco/craco": "^6.3.0",
     "@loadable/component": "^5.10.1",

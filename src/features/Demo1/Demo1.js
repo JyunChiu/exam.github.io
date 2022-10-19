@@ -26,7 +26,7 @@ const Div = styled.div`
     .selectWrapper{
       min-width: 260px;
       max-width: 600px;
-      min-height: 44px;
+      min-height: 46px;
     }
   }
 `

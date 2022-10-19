@@ -53,7 +53,7 @@ const FieldWrapper = styled.div`
     cursor: auto;
     .optionBox{
       ${SmallSrcollBar(6)}
-      max-height: 217px;
+      max-height: 220px;
       ::-webkit-scrollbar-thumb {
         background-clip: padding-box;
         border: 1.5px solid transparent;
