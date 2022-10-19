@@ -64,8 +64,16 @@ const TableBox = styled.div`
           border-bottom-width: 1px;
         }
       }
+      &.focus{
+        .tableCell{
+          background: #cecece !important;
+        }
+      }
       .tableCell{
         background: ${COMMON_COLOR.WHITE};
+        &.focus{
+          box-shadow: inset 0px 0px 0px 1px #004fc4;
+        }
       }
     }
   }
@@ -108,9 +116,23 @@ const TableCell = styled.td`
   &:not(:last-child){
     border-right: 1px solid ${COMMON_COLOR.GRAY};
   }
-  
   &.hasChildren{
     background: #eeeeee !important;
+  }
+
+  .cellInput{
+    width: 100%;
+    padding: 0 4px;
+    border: none;
+    background: #f4f4f4;
+    border-radius: 0;
+    .functionBtn{
+      display: none;
+    }
+    .valueBox{
+      text-align: ${props => props.align || 'center'};
+      text-overflow: unset;
+    }
   }
 `;
 

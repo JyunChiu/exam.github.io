@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import * as R from 'ramda';
-import { BsCodeSlash } from "react-icons/bs";
+import { BsCodeSlash, BsFillPencilFill } from "react-icons/bs";
 import { HomeResource } from '~~apis/resource';
 import { TableBox, Table } from '~~components/Table';
 import { Button } from '~~components/Buttons';
@@ -15,9 +15,16 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5%;
-  .btnCode{
-    margin: 0 0 20px;
+  padding: 5% 6%;
+  .wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 15px;
+    height: 40px;
+    >div:not(:last-child){
+      margin: 0 10px 0 0
+    }
   }
 `
 
@@ -32,7 +39,6 @@ const columns = [
     align: 'left',
     titleAlign: 'center',
     sortable: true,
-    // render: (value, record) => <span>{value}</span>,
   },
   {
     title: 'Q1-2004',
@@ -51,6 +57,7 @@ const columns = [
         className: 'btnCell',
         align: 'right',
         sortable: true,
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -60,6 +67,7 @@ const columns = [
         className: 'btnCell',
         align: 'right',
         sortable: true,
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -69,6 +77,7 @@ const columns = [
         className: 'btnCell',
         align: 'right',
         sortable: true,
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
     ]
@@ -89,6 +98,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -97,6 +107,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -105,6 +116,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
     ]
@@ -125,6 +137,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -133,6 +146,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -141,6 +155,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
     ]
@@ -161,6 +176,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -169,6 +185,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
       {
@@ -177,6 +194,7 @@ const columns = [
         width: columnWidth,
         className: 'btnCell',
         align: 'right',
+        editable: true,
         render: (value, record) => comma(Math.round(value)),
       },
     ]
@@ -202,6 +220,7 @@ WHERE (
   const [dataSource, setDataSource] = useState([])
   const [chartXOpt, setChartOpt] = useState([])
   const [chartGroupOpt, setChartGroupOpt] = useState([])
+  const [ editMode, setEditMode ] = useState(false)
 
   // console.log('dataSource', dataSource)
 
@@ -288,19 +307,40 @@ WHERE (
     getTableByMdx(mdxCode)
   }
 
+  function handleSave(){
+    console.log('SAVE :::::', dataSource)
+    setEditMode(false)
+  }
+
   return (
     <Div>
-      <Button
-        onClick={() => handleModalClick(true)}
-        className='btnCode'
-      >
-        <BsCodeSlash />
-      </Button>
+      {
+        editMode? 
+        <div className='wrapper'>
+          <Button onClick={handleSave}>
+            Save
+          </Button>
+          <Button onClick={() => setEditMode(false)}>
+            Cancel
+          </Button>
+        </div> :
+        <div className='wrapper'>
+          <Button onClick={() => setEditMode(true)}>
+            <BsFillPencilFill />
+          </Button>
+          <Button onClick={() => handleModalClick(true)}>
+            <BsCodeSlash />
+          </Button>
+        </div>
+      }
+     
       <TableBox>
         <Table
           columns={columns}
           dataSource={dataSource}
+          setDataSource={setDataSource}
           columnHeaderFreeze
+          editMode={editMode}
           showGutter={
             {
               title: '',

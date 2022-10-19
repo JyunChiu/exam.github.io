@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiFillMinusSquare, AiFillPlusSquare } from "react-icons/ai";
 import { TableCell } from './TableStyle';
+import { Input } from '~~components/Fields';
 import * as R from 'ramda'
+
 
 const SORTORDER = {
   DESC: 'descend',
@@ -15,7 +17,9 @@ const Table = (props) => {
     showGutter = false,
     columns = [], 
     dataSource = [], 
+    setDataSource = () =>{},
     onRow = () => {},
+    editMode = false,
   } = props;
   const [ data, setData ] = useState(dataSource);
   const [ columnData, setColumnData ]= useState(columns);
@@ -36,15 +40,40 @@ const Table = (props) => {
     setData(sorted)
   }, [JSON.stringify(sortInfo)])
 
+  useEffect(()=>{
+    const allTd = document.querySelectorAll("td");
+    for(let i=0; i<allTd.length; i++){ 
+      allTd[i].classList.remove('focus');
+    }
+  }, [editMode])
+
   function handleRowClick(e, record) {
     e.stopPropagation();
     onRow(record);
   }
 
-  function handleClickCell(e, onCell, record) {
+  function handleClickCell(e, onCell = () =>{}, rowInfo, columnInfo, rowIndex) {
     e.stopPropagation();
-    onCell(record);
-    // console.log('??', e.detail)
+    onCell(rowInfo);
+
+    console.log(e.detail)
+  
+    const allTr = document.querySelectorAll("tr");
+    for(let i=0; i<allTr.length; i++){ 
+      allTr[i].classList.remove('focus');
+    }
+    const allTd = document.querySelectorAll("td");
+    for(let i=0; i<allTd.length; i++){ 
+      allTd[i].classList.remove('focus');
+    }
+
+    // focus cell
+    if(!editMode){
+      e.currentTarget.classList.toggle('focus');
+    }
+    // focus row
+    const row = document.getElementById(`table-row--${rowIndex}`)
+    row.classList.toggle('focus');
   }
 
   function getCellClassName(item) {
@@ -110,6 +139,7 @@ const Table = (props) => {
   }
 
   function getTableCell(item, index, key, props){
+    // console.log('getTableCell' , item)
     return(
       <TableCell
         key={`table-${key}--${item.dataIndex}--${index + 1}`}
@@ -121,9 +151,34 @@ const Table = (props) => {
         showGutter={showGutter}
         {...props}
       >
-       {props.children}
+        {
+          (editMode && props.editable)?
+          <Input 
+            name={item.dataIndex}
+            value={props.value}
+            onChange={(val) => handleCellChange(val, props.rowData.no)}
+            placeholder=''
+            className='cellInput'
+          />
+          
+          : 
+          props.children
+        }
       </TableCell>
     )
+  }
+
+  function handleCellChange(val, rowId){
+    const updated = data.map(item=>{
+      if(item.no === rowId){
+        return{
+          ...item,
+          ...val
+        }
+      }
+      return item
+    })
+    setDataSource(updated)
   }
 
   function handleColumnExpand(e, key){
@@ -191,16 +246,17 @@ const Table = (props) => {
                 <tr key={`table-row--${dataInd}`} id={`table-row--${dataInd}`} onClick={(e) => handleRowClick(e, record)} className={record.highlight ? 'highlight' : ''}>
                   {
                     showGutter && 
-                    getTableCell(showGutter, 0, 'cell', {
-                      children: `${dataInd+1}`
-                    })
+                    getTableCell(showGutter, 0, 'cell', { children: `${dataInd+1}` })
                   }
                   {columnData.map((item, index) => (
                     <>
                       {
                         getTableCell(item, showGutter? index+1 : index, 'cell', {
+                          editable: item.editable,
                           align: item.titleAlign ? item.titleAlign : item.align,
-                          onClick: item.onCell ? (e) => handleClickCell(e, item.onCell, record) : () => {},
+                          onClick: (e) => handleClickCell(e, item.onCell, record, item, dataInd),
+                          rowData: record,
+                          value: record[item.dataIndex],
                           children: (
                             <div>
                               {item.render? 
@@ -214,7 +270,11 @@ const Table = (props) => {
                         item.showChildren && 
                         (item.children.map((child)=>(
                           getTableCell(child, showGutter? index+1 : index, 'cell', {
+                            editable: child.editable,
                             align: child.titleAlign ? child.titleAlign : child.align,
+                            onClick: (e) => handleClickCell(e, item.onCell, record, child, dataInd),
+                            rowData: record,
+                            value: record[child.dataIndex],
                             children: (
                               <div>
                                 {child.render? 
