@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Select } from '~~components/Fields';
+import { comma } from '~~utils/CommonUtils';
 import {
   BarChart,
   Bar,
@@ -152,6 +153,7 @@ const BarComponent = (props) => {
             <YAxis
               tickSize={0}
               tickMargin={5}
+              tickFormatter={(val) => comma(val)}
             />
             <Tooltip
               cursor={{ fill: '#eeeeee' }}

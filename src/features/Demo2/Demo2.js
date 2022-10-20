@@ -218,15 +218,20 @@ WHERE (
   [plan_source].[plan_source].[input]
 )`)
   const [dataSource, setDataSource] = useState([])
+  const [tempDataSource, setTempDataSource] = useState([])
   const [chartXOpt, setChartOpt] = useState([])
   const [chartGroupOpt, setChartGroupOpt] = useState([])
-  const [ editMode, setEditMode ] = useState(false)
+  const [editMode, setEditMode] = useState(false)
 
   // console.log('dataSource', dataSource)
 
   useEffect(() => {
     getTableByMdx(mdxCode)
   }, [])
+
+  useEffect(() => {
+    setTempDataSource(dataSource)
+  }, [JSON.stringify(dataSource)])
 
   function getTableByMdx(data) {
     HomeResource.getTableByMdx({ MDX: data.replace(/\n/g, ' ') })
@@ -307,40 +312,47 @@ WHERE (
     getTableByMdx(mdxCode)
   }
 
-  function handleSave(){
-    console.log('SAVE :::::', dataSource)
+  function handleSave() {
+    console.log('SAVE :::::', tempDataSource)
     setEditMode(false)
+    setDataSource(tempDataSource)
+  }
+
+  function handleCancel() {
+    setEditMode(false)
+    setTempDataSource(dataSource)
   }
 
   return (
     <Div>
       {
-        editMode? 
-        <div className='wrapper'>
-          <Button onClick={handleSave}>
-            Save
-          </Button>
-          <Button onClick={() => setEditMode(false)}>
-            Cancel
-          </Button>
-        </div> :
-        <div className='wrapper'>
-          <Button onClick={() => setEditMode(true)}>
-            <BsFillPencilFill />
-          </Button>
-          <Button onClick={() => handleModalClick(true)}>
-            <BsCodeSlash />
-          </Button>
-        </div>
+        editMode ?
+          <div className='wrapper'>
+            <Button onClick={handleSave}>
+              Save
+            </Button>
+            <Button onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div> :
+          <div className='wrapper'>
+            <Button onClick={() => setEditMode(true)}>
+              <BsFillPencilFill />
+            </Button>
+            <Button onClick={() => handleModalClick(true)}>
+              <BsCodeSlash />
+            </Button>
+          </div>
       }
-     
+
       <TableBox>
         <Table
           columns={columns}
-          dataSource={dataSource}
-          setDataSource={setDataSource}
+          dataSource={tempDataSource}
+          setTempDataSource={setTempDataSource}
           columnHeaderFreeze
           editMode={editMode}
+          handleSave={handleSave}
           showGutter={
             {
               title: '',
@@ -352,7 +364,7 @@ WHERE (
         />
       </TableBox>
       <BarChart
-        dataSource={dataSource}
+        dataSource={tempDataSource}
         chartXOpt={chartXOpt}
         chartGroupOpt={chartGroupOpt}
       />
