@@ -42,7 +42,6 @@ const StyledModal = styled(Modal)`
 
 const MdxModal = (props) => {
   const {
-    children,
     modalSize,
     isOpen,
     toggleClose = () => { },

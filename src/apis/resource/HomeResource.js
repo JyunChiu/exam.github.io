@@ -11,7 +11,7 @@ const debugStatus = {
 const HomeResource = {
   getDimensions: (data) => {
     // console.log('Resource -----', data)
-    if (debugStatus.testApi) {
+    if (debugStatus.getDimensions) {
       return fakeApiHelper(200, 'success', {
         error: false,
         message: 'Get successfully',

@@ -1,23 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import * as R from 'ramda';
-import _groupBy from 'lodash/groupBy'
 import { Select } from '~~components/Fields';
 import {
   BarChart,
   Bar,
-  Label,
-  Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer
 } from 'recharts';
-
-import { COMMON_COLOR } from '~~styles/_variables';
-import { IoMdHeartEmpty } from 'react-icons/io';
 
 const COLORS = [
   '#6d86b2',

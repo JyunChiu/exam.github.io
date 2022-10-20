@@ -73,7 +73,6 @@ const Demo1 = (props) => {
       .then(async response => {
         // console.log('getElements response -----', response);
         const { data } = response
-
         const list = data.Elements.map(item => ({
           label: item.Name,
           value: item.Name,
@@ -123,13 +122,20 @@ const Demo1 = (props) => {
   }
 
   function handleMdxModalSave() {
-    const mdxList = mdxCode.split(/[ ,/\n]+/)
+    if (!mdxCode) {
+      setDimension('')
+      setElements([])
+      return
+    }
+
+    const mdxList = mdxCode.split(/[ ,/\n]+/).filter(item => !!item)
     const dimensionName = handleMappingMdxCode('UniqueName', mdxList[0].split('.', 1)[0], dimensionOpts, 'value')
     setDimension(dimensionName)
     if (!dimensionName) {
       setElements([])
       return
     }
+
     getElements(dimensionName, mdxList)
   }
 

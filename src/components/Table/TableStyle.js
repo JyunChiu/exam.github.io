@@ -96,7 +96,7 @@ const TableCell = styled.td`
   >div{
     display: flex;
     align-items: center;
-    justify-content: ${props=>alignSwitch( props.align)};
+    justify-content: ${props=>alignSwitch(props.align)};
     >span{
       overflow: hidden;
       white-space: nowrap;

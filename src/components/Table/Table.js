@@ -5,7 +5,6 @@ import { TableCell } from './TableStyle';
 import { Input } from '~~components/Fields';
 import * as R from 'ramda'
 
-
 const SORTORDER = {
   DESC: 'descend',
   ASC: 'ascend'
@@ -55,8 +54,6 @@ const Table = (props) => {
   function handleClickCell(e, onCell = () =>{}, rowInfo, columnInfo, rowIndex) {
     e.stopPropagation();
     onCell(rowInfo);
-
-    console.log(e.detail)
   
     const allTr = document.querySelectorAll("tr");
     for(let i=0; i<allTr.length; i++){ 
@@ -90,7 +87,6 @@ const Table = (props) => {
 
     return result.join(' ');
   }
-
 
   function handleColumnSort(column){
     const index = handleFindItem('column', column, sortInfo, 'findIndex')
@@ -253,7 +249,7 @@ const Table = (props) => {
                       {
                         getTableCell(item, showGutter? index+1 : index, 'cell', {
                           editable: item.editable,
-                          align: item.titleAlign ? item.titleAlign : item.align,
+                          align: item.align,
                           onClick: (e) => handleClickCell(e, item.onCell, record, item, dataInd),
                           rowData: record,
                           value: record[item.dataIndex],
@@ -271,7 +267,7 @@ const Table = (props) => {
                         (item.children.map((child)=>(
                           getTableCell(child, showGutter? index+1 : index, 'cell', {
                             editable: child.editable,
-                            align: child.titleAlign ? child.titleAlign : child.align,
+                            align: child.align,
                             onClick: (e) => handleClickCell(e, item.onCell, record, child, dataInd),
                             rowData: record,
                             value: record[child.dataIndex],

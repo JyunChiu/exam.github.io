@@ -21,7 +21,7 @@ const Div = styled.div`
     align-items: center;
     justify-content: center;
     margin: 0 0 15px;
-    height: 40px;
+    min-height: 40px;
     >div:not(:last-child){
       margin: 0 10px 0 0
     }
@@ -36,7 +36,7 @@ const columns = [
     dataIndex: 'accountName',
     width: '10rem',
     className: 'btnCell',
-    align: 'left',
+    align: 'center',
     titleAlign: 'center',
     sortable: true,
   },
